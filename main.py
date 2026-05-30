@@ -154,7 +154,7 @@ def hf_client_test():
         return {
             "status": "success",
             "dimensions": len(result),
-            "sample": result[:5].tolist() if hasattr(result, "tolist") else result[:5]
+            "sample": result[:5].tolist()
         }
 
     except Exception as e:
