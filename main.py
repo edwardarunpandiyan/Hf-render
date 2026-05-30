@@ -132,7 +132,7 @@ def debug_token():
     return {
         "exists": bool(HF_API_TOKEN),
         "length": len(HF_API_TOKEN),
-        "prefix": HF_API_TOKEN if HF_API_TOKEN else None
+        "prefix": HF_API_TOKEN if HF_API_TOKEN else None,
         "prefix2": HF_API_TOKEN2 if HF_API_TOKEN2 else None
     }
 # --------------------------------------------------
