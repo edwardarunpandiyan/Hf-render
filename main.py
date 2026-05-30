@@ -164,7 +164,32 @@ def hf_client_test():
             "detail": str(e)
         }
 
+@app.get("/hf-client-test-batch")
+def hf_client_test():
+    try:
+        client = InferenceClient(
+            provider="hf-inference",
+            api_key=os.environ["HF_API_TOKEN"]
+        )
 
+        result = client.feature_extraction(
+            ["Today is a sunny day", "I will get some ice cream."],
+            model="BAAI/bge-small-en-v1.5",
+        )
+
+        return {
+            "status": "success",
+            "dimensions": len(result),
+            "sample": result.tolist()
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "type": type(e).__name__,
+            "detail": str(e)
+        }
+        
 @app.get("/hf-version")
 def hf_version():
     return {
