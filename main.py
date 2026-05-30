@@ -8,6 +8,7 @@ import os
 app = FastAPI()
 
 HF_API_TOKEN = os.getenv("HF_API_TOKEN", "")
+HF_API_TOKEN2 = os.environ['HF_API_TOKEN']
 EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
 
 
@@ -96,6 +97,44 @@ async def hf_test():
         }
 
 
+
+@app.get("/hf-router-test")
+def hf_router_test():
+    try:
+        API_URL = "https://router.huggingface.co/hf-inference/models/BAAI/bge-small-en-v1.5/pipeline/feature-extraction"
+
+        headers = {
+            "Authorization": f"Bearer {os.environ['HF_API_TOKEN']}"
+        }
+
+        response = requests.post(
+            API_URL,
+            headers=headers,
+            json={
+                "inputs": "Today is a sunny day and I will get some ice cream."
+            },
+            timeout=60
+        )
+
+        return {
+            "status_code": response.status_code,
+            "response": response.json()
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "detail": str(e)
+        }
+
+@app.get("/debug-token")
+def debug_token():
+    return {
+        "exists": bool(HF_API_TOKEN),
+        "length": len(HF_API_TOKEN),
+        "prefix": HF_API_TOKEN if HF_API_TOKEN else None
+        "prefix2": HF_API_TOKEN2 if HF_API_TOKEN2 else None
+    }
 # --------------------------------------------------
 # EMBEDDING TEST
 # --------------------------------------------------
@@ -123,3 +162,4 @@ async def embed(req: EmbedRequest):
             "status": "error",
             "detail": str(e)
         }
+
