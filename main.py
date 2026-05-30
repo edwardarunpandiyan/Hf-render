@@ -176,11 +176,12 @@ def hf_client_test():
             ["Today is a sunny day", "I will get some ice cream."],
             model="BAAI/bge-small-en-v1.5",
         )
-
+        print(result.shape)  # expect (3, 384)
         return {
             "status": "success",
             "dimensions": len(result),
-            "sample": result.tolist()
+            "sample": result.tolist(),
+            "shape": result.shape
         }
 
     except Exception as e:
